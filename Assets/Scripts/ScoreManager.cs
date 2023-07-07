@@ -48,9 +48,12 @@ public class ScoreManager : MonoBehaviour
         if(json == "{}" || json == null)
         {
             ScoreList = new ScoreList();
+            ScoreList.scores= new List<Score>();
         }
         else
         {
+            ScoreList = new ScoreList();
+            ScoreList.scores= new List<Score>();
             ScoreList = JsonUtility.FromJson<ScoreList>(json);
         }
     }
