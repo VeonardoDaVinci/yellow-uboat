@@ -1,3 +1,4 @@
+using ExtensionMethods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,23 +14,11 @@ public class Leaderboard : MonoBehaviour
             count++;
             rowPrefab = Instantiate(rowPrefab, transform);
             rowPrefab.GetComponent<LeaderboardRow>().nicknameRow.text = score.name.ToString();
-            rowPrefab.GetComponent<LeaderboardRow>().scoreRow.text = ParseTime(score.score);
+            rowPrefab.GetComponent<LeaderboardRow>().scoreRow.text = score.score.ParseIntToTimeString();
             if (count >= 3)
             {
                 break;
             }
         }
     }
-
-    private string ParseTime(int time)
-    {
-        int minutes = (time / 60);
-        string seconds = (time % 60).ToString();
-        if (seconds.Length < 2)
-        {
-            seconds = "0" + seconds;
-        }
-        return minutes + ":" + seconds;
-    }
-
 }

@@ -1,3 +1,4 @@
+using ExtensionMethods;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,18 +15,7 @@ public class LeaderboardRow : MonoBehaviour
         if(isCurrentScore)
         {
             nicknameRow.text = ScoreManager.I.CurrentNickname;
-            scoreRow.text = ParseTime(ScoreManager.I.CurrentScore);
+            scoreRow.text = ScoreManager.I.CurrentScore.ParseIntToTimeString();
         }
-    }
-
-    private string ParseTime(int time)
-    {
-        int minutes = (time / 60);
-        string seconds = (time % 60).ToString();
-        if (seconds.Length < 2)
-        {
-            seconds = "0" + seconds;
-        }
-        return minutes + ":" + seconds;
     }
 }

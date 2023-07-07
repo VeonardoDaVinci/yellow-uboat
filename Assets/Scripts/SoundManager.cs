@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip ExplosionClip;
     public AudioSource MusicSource;
     public AudioSource SfxSource;
+
     void Awake()
     {
         if (!I)
@@ -20,10 +21,5 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        MusicSource.Play();
     }
 }

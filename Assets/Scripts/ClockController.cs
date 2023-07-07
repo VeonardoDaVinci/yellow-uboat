@@ -1,3 +1,4 @@
+using ExtensionMethods;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,9 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class ClockController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI clockText;
-    private int time = 120;
     public int Time { get { return time; } }
+
+    private int time = 120;
+    [SerializeField] private TextMeshProUGUI clockText;
     private void Start()
     {
         StartCoroutine(CountDown());
@@ -23,18 +25,7 @@ public class ClockController : MonoBehaviour
             ConnectionManager.I.SendClientMessage("GAMEOVER");
             SceneManager.LoadScene("GameOver");
         }
-        clockText.text = ParseTime(time);
-    }
-
-    public string ParseTime(int time)
-    {
-        int minutes = (time / 60);
-        string seconds = (time % 60).ToString();
-        if(seconds.Length <2)
-        {
-            seconds= "0" + seconds;
-        }
-        return  minutes + ":" + seconds;
+        clockText.text = time.ParseIntToTimeString();
     }
 
     private IEnumerator CountDown()
@@ -43,7 +34,7 @@ public class ClockController : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             RemoveTime(1);
-            clockText.text = ParseTime(time);
+            clockText.text = time.ParseIntToTimeString();
         }
     }
 }
