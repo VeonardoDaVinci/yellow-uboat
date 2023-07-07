@@ -6,6 +6,7 @@ public class RandomizePosition : MonoBehaviour
 {
     [SerializeField] private Vector2 randomizeRangeRadius;
     [SerializeField] private GameObject submarine;
+    private float subDistanceMargin = 2f;
     void Start()
     {
         submarine = FindObjectOfType<SubmarineController>().gameObject;
@@ -20,7 +21,7 @@ public class RandomizePosition : MonoBehaviour
         newX = Random.Range(0f, randomizeRangeRadius.x) * (Random.Range(1, 3) == 1 ? -1 : 1);
         newY = Random.Range(0f, randomizeRangeRadius.y) * (Random.Range(1, 3) == 1 ? -1 : 1);
         transform.position = new Vector2(newX, newY);
-        if (Vector3.Distance(transform.position, submarine.transform.position) <= 2f)
+        if (Vector3.Distance(transform.position, submarine.transform.position) <= subDistanceMargin)
         {
             Randomize();
             return;

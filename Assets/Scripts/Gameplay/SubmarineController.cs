@@ -12,6 +12,7 @@ public class SubmarineController : MonoBehaviour
     [SerializeField] private GameObject submarineObject;
     [SerializeField] private RotationController propeller;
     [SerializeField] private float maxSubmarineSpeed = 5f;
+    [SerializeField] private float submarineAcceleration = 5f;
 
     [Header("Inputs")]
     [SerializeField] private InputAction movement;
@@ -39,12 +40,13 @@ public class SubmarineController : MonoBehaviour
     private bool isRotating = false;
     private bool isMoving = false;
 
-    private float detectionRadius = 1f;
-    private Vector3 originalScale;
 
     [Header("Gameplay Elements")]
     [SerializeField] private Transform visibilityMask;
     [SerializeField] private WinCondition winCondition;
+    private float detectionRadius = 1f;
+    private float maxDetectionRadius = 10f;
+    private Vector3 maskOriginalScale;
 
     private void Awake()
     {
@@ -91,7 +93,7 @@ public class SubmarineController : MonoBehaviour
     {
         submarineRigidbody = GetComponent<Rigidbody2D>();
         submarineDirection.x = 1f;
-        originalScale = visibilityMask.transform.localScale;
+        maskOriginalScale = visibilityMask.transform.localScale;
     }
 
     private void Update()
@@ -111,11 +113,11 @@ public class SubmarineController : MonoBehaviour
     {
         if (isMoving && isEngineOn)
         {
-            submarineVelocity.x += submarineDirection.x * 5f * Time.deltaTime;
+            submarineVelocity.x += submarineDirection.x * submarineAcceleration * Time.deltaTime;
             propeller.AnimationRampKey += Time.deltaTime;
         }
 
-        submarineVelocity.y += submarineDirection.y * 5f * Time.deltaTime;
+        submarineVelocity.y += submarineDirection.y * submarineAcceleration * Time.deltaTime;
 
         Mathf.Clamp(submarineVelocity.y, -maxSubmarineSpeed, maxSubmarineSpeed);
         Mathf.Clamp(submarineVelocity.x, -maxSubmarineSpeed, maxSubmarineSpeed);
@@ -123,10 +125,10 @@ public class SubmarineController : MonoBehaviour
 
     private void ScaleVisibilityMask()
     {
-        if (detectionRadius <= 10f)
+        if (detectionRadius <= maxDetectionRadius)
         {
-            detectionRadius = 10f - 9 * clock.Time / 120f;
-            visibilityMask.transform.localScale = originalScale * detectionRadius;
+            detectionRadius = maxDetectionRadius - ((maxDetectionRadius - 1) * clock.Time / 120f);
+            visibilityMask.transform.localScale = maskOriginalScale * detectionRadius;
         }
     }
 
@@ -134,7 +136,7 @@ public class SubmarineController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            submarineVelocity = (transform.position - collision.transform.position) * 5f;
+            submarineVelocity = (transform.position - collision.transform.position) * submarineAcceleration;
             clock.RemoveTime(5);
             SoundManager.I.SfxSource.PlayOneShot(SoundManager.I.ExplosionClip);
             return;
