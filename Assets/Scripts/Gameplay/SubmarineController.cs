@@ -112,7 +112,7 @@ public class SubmarineController : MonoBehaviour
         if (isMoving && isEngineOn)
         {
             submarineVelocity.x += submarineDirection.x * 5f * Time.deltaTime;
-            propeller.animationRampKey += Time.deltaTime;
+            propeller.AnimationRampKey += Time.deltaTime;
         }
 
         submarineVelocity.y += submarineDirection.y * 5f * Time.deltaTime;
@@ -233,17 +233,17 @@ public class SubmarineController : MonoBehaviour
             if (Mathf.Abs(submarineVelocity.x) < 0.1f)
             {
                 submarineVelocity.x = 0f;
-                propeller.animationRampKey = 0f;
+                propeller.AnimationRampKey = 0f;
             }
             else if (submarineVelocity.x > 0f)
             {
                 submarineVelocity.x -= Time.deltaTime;
-                propeller.animationRampKey -= Time.deltaTime;
+                propeller.AnimationRampKey -= Time.deltaTime;
             }
             else if (submarineVelocity.x < 0f)
             {
                 submarineVelocity.x += Time.deltaTime;
-                propeller.animationRampKey -= Time.deltaTime;
+                propeller.AnimationRampKey -= Time.deltaTime;
             }
         }
     }

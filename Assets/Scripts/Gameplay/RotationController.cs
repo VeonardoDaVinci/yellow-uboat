@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+
 public class RotationController : MonoBehaviour
 {
-    public float animationRampKey = 0f;
+    public float AnimationRampKey { get => animationRampKey; set => animationRampKey = value; }
+
+    private float animationRampKey = 0f;
     private float animationRampMultiplier = 5f;
     [SerializeField] private AnimationCurve rotationRamp;
 
@@ -15,6 +15,8 @@ public class RotationController : MonoBehaviour
     [SerializeField] private float rotationInterval = 1f;
     [SerializeField] private Vector3 rotationAxis = Vector3.left;
     [SerializeField] private GameObject gameObjectToRotate;
+
+
     public void RotateObject(GameObject rotationObject, float dagrees, float time)
     {
         if (time == 0) { return; }
@@ -24,10 +26,10 @@ public class RotationController : MonoBehaviour
 
     private void Update()
     {
-        animationRampKey = Mathf.Clamp01(animationRampKey);
+        AnimationRampKey = Mathf.Clamp01(AnimationRampKey);
         if (isUsingRotationRamp)
         {
-            rotationInterval = rotationRamp.Evaluate(animationRampKey) * animationRampMultiplier;
+            rotationInterval = rotationRamp.Evaluate(AnimationRampKey) * animationRampMultiplier;
         }
         if(isRotationActive)
         {
